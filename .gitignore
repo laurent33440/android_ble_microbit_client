@@ -1,0 +1,14 @@
+.gradle
+*.iml
+/local.properties
+/.idea/workspace.xml
+/.idea/dictionaries/*.xml
+/.idea/libraries
+/.DS_Store
+/build
+/app/build/*
+/.idea/*
+gradle/
+gradlew
+microbit hex files/
+releases/
