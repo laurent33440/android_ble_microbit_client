@@ -12,3 +12,4 @@ gradle/
 gradlew
 microbit hex files/
 releases/
+**/.DS_Store
