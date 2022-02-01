@@ -104,4 +104,6 @@
     <string name="gamepad_right_on">Right ON</string>
     <string name="gamepad_right_off">Right OFF</string>
 
+    <string name="avm_view_warning">DANGER PIETON OU CYCLISTE</string>
+
 </resources>

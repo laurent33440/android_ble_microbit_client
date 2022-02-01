@@ -395,7 +395,6 @@ public class BleAdapterService extends Service implements Runnable{
                             Log.d(Constants.TAG, "Looks like GATT operation was not processed - timing out to clear the queue");
                             sendConsoleMessage("Previous operation timed out");
                             operationCompleted();
-                            // continue;
                         } else {
                             op.setOperation_status(Operation.OPERATION_EXECUTING);
                             current_op = op;
@@ -557,7 +556,7 @@ public class BleAdapterService extends Service implements Runnable{
         bluetooth_gatt.discoverServices();
     }
 
-    // set activity the will receive the messages
+    // set activity that will receive the messages
     public void setActivityHandler(Handler handler) {
         activity_handler = handler;
     }
@@ -846,16 +845,16 @@ public class BleAdapterService extends Service implements Runnable{
 
 
     public boolean refreshDeviceCache(){
+        boolean bool = false;
         try {
             Method refresh_method = bluetooth_gatt.getClass().getMethod("refresh", new Class[0]);
             if (refresh_method != null) {
-                boolean bool = ((Boolean) refresh_method.invoke(bluetooth_gatt, new Object[0])).booleanValue();
-                return bool;
+                bool = (Boolean) refresh_method.invoke(bluetooth_gatt, new Object[0]);
             }
         }
         catch (Exception e) {
             Log.e(Constants.TAG, "Exception refreshing GATT services:"+e.getClass().getName()+":"+e.getMessage());
         }
-        return false;
+        return bool;
     }
 }

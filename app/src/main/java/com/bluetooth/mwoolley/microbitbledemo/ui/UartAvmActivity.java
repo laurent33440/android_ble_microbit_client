@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bluetooth.mwoolley.microbitbledemo.Constants;
@@ -50,8 +51,8 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
 
     private BleAdapterService bluetooth_le_adapter;
 
-    private boolean exiting=false;
-    private boolean indications_on=false;
+    private boolean exiting = false;
+    private boolean indications_on = false;
     private int guess_count=0;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -85,7 +86,6 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
         // read intent data
         final Intent intent = getIntent();
         MicroBit.getInstance().setConnection_status_listener(this);
-
         // connect to the Bluetooth smart service
         Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -108,11 +108,10 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
 
     public void onBackPressed() {
         Log.d(Constants.TAG, "onBackPressed");
+        exiting = true;
         if (MicroBit.getInstance().isMicrobit_connected() && indications_on) {
-            exiting = true;
             bluetooth_le_adapter.setIndicationsState(Utility.normaliseUUID(BleAdapterService.UARTSERVICE_SERVICE_UUID), Utility.normaliseUUID(BleAdapterService.UART_TX_CHARACTERISTIC_UUID), false);
         }
-        exiting=true;
         if (!MicroBit.getInstance().isMicrobit_connected()) {
             try {
                 // may already have unbound. No API to check state so....
@@ -121,7 +120,6 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
             }
         }
         finish();
-        exiting=true;
     }
 
     @Override
@@ -204,12 +202,24 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
                             showMsg(Utility.htmlColorGreen("Could not convert TX data to ASCII"));
                             return;
                         }
-                        Log.d(Constants.TAG, "micro:bit answer: " + ascii);
+                        Log.d(Constants.TAG, "micro:bit answer: " + ascii); // AVM_WARNING_RECEIVED
+                        //if (!ascii.equals(Constants.AVM_WARNING_RECEIVED)) {
+                            // show WARNING image
+                            showAnswer(ascii); // for debug purpose
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning)).setImageResource(R.drawable.button_red);
+                                }
+                            });
+                        //}
+                        /*
                         if (!ascii.equals(Constants.AVM_CORRECT_RESPONSE)) {
                             showAnswer(ascii);
                         } else {
                             showAnswer(ascii+" You only needed "+guess_count+" guesses!");
                         }
+                        */
                     }
                     break;
                 case BleAdapterService.MESSAGE:

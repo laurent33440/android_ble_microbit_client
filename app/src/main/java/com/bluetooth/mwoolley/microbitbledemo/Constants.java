@@ -101,4 +101,7 @@ public class Constants {
 
     public static final String AVM_CORRECT_RESPONSE = "GOT IT!!";
 
+    public static final String AVM_WARNING_RECEIVED = "DANGER";
+
+
 }

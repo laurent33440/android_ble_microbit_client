@@ -80,6 +80,14 @@
                 android:text="@string/avm_question_btn"
                 android:onClick="onSendText"/>
 
+            <ImageView
+                android:id="@+id/imageWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_green"
+                android:contentDescription="@string/avm_view_warning"
+                />
+
 
         </LinearLayout>
 
