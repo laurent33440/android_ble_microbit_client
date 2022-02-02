@@ -41,6 +41,7 @@
     <string name="screen_title_gamepad">Gamepad Controller</string>
     <string name="screen_title_hrm">Heart Rate Histogram</string>
     <string name="screen_title_UART_AVM">UART AVM</string>
+    <string name="screen_title_teaching_activity">AVERTISSEUR DE DANGERS</string>
 
     <string name="model_number">Model Number:</string>
     <string name="serial_number">Serial Number:</string>
@@ -91,6 +92,7 @@
     <string name="avm_question_btn">Send question</string>
     <string name="avm_new_game_btn">New Game</string>
     <string name="avm_answer_label">micro:bit answer</string>
+    <string name="avm_acknowledge_btn">J\'ai compris</string>
 
     <string name="gamepad_event_code">Gamepad Event Code</string>
     <string name="gamepad_pad_1">Left Pad Event Values</string>

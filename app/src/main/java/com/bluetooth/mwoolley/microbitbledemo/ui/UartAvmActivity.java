@@ -17,6 +17,7 @@ package com.bluetooth.mwoolley.microbitbledemo.ui;
  *  limitations under the License.
  */
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -33,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -81,14 +83,15 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_uart_avm);
-        getSupportActionBar().setTitle(R.string.screen_title_UART_AVM);
-
+        getSupportActionBar().setTitle(R.string.screen_title_teaching_activity);
         // read intent data
         final Intent intent = getIntent();
         MicroBit.getInstance().setConnection_status_listener(this);
         // connect to the Bluetooth smart service
         Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        // disable acknowledge button
+        ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setEnabled(false);
     }
 
     @Override
@@ -209,7 +212,10 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning)).setImageResource(R.drawable.button_red);
+                                    ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning1)).setImageResource(R.drawable.signalisation_pieton_142);
+                                    ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning2)).setImageResource(R.drawable.signalisation_cycliste_142);
+                                    // enable button acknowledge
+                                    ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setEnabled(true);
                                 }
                             });
                         //}
@@ -249,13 +255,13 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
     }
 
     private void showGuessCount() {
-        final int gc = guess_count;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView) UartAvmActivity.this.findViewById(R.id.avm_guess_count)).setText("Guesses: "+Integer.toString(gc));
-            }
-        });
+//        final int gc = guess_count;
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                ((TextView) UartAvmActivity.this.findViewById(R.id.avm_guess_count)).setText("Guesses: "+Integer.toString(gc));
+//            }
+//        });
     }
 
     @Override
@@ -273,19 +279,27 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
 
     public void onSendText(View view) {
         Log.d(Constants.TAG, "onSendText");
-        EditText text = (EditText) UartAvmActivity.this.findViewById(R.id.avm_question_text);
-        Log.d(Constants.TAG, "onSendText: " + text.getText().toString());
-        try {
-            String question = text.getText().toString() + ":";
-            byte[] ascii_bytes = question.getBytes("US-ASCII");
-            Log.d(Constants.TAG, "ASCII bytes: 0x" + Utility.byteArrayAsHexString(ascii_bytes));
-            bluetooth_le_adapter.writeCharacteristic(Utility.normaliseUUID(BleAdapterService.UARTSERVICE_SERVICE_UUID), Utility.normaliseUUID(BleAdapterService.UART_RX_CHARACTERISTIC_UUID), ascii_bytes);
-            guess_count++;
-            showGuessCount();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            showMsg("Unable to convert text to ASCII bytes");
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning1)).setImageResource(R.drawable.blank);
+                ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning2)).setImageResource(R.drawable.blank);
+            }
+        });
+
+//        EditText text = (EditText) UartAvmActivity.this.findViewById(R.id.avm_question_text);
+//        Log.d(Constants.TAG, "onSendText: " + text.getText().toString());
+//        try {
+//            String question = text.getText().toString() + ":";
+//            byte[] ascii_bytes = question.getBytes("US-ASCII");
+//            Log.d(Constants.TAG, "ASCII bytes: 0x" + Utility.byteArrayAsHexString(ascii_bytes));
+//            bluetooth_le_adapter.writeCharacteristic(Utility.normaliseUUID(BleAdapterService.UARTSERVICE_SERVICE_UUID), Utility.normaliseUUID(BleAdapterService.UART_RX_CHARACTERISTIC_UUID), ascii_bytes);
+//            guess_count++;
+//            showGuessCount();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//            showMsg("Unable to convert text to ASCII bytes");
+//        }
     }
 
     public void onNewGame() {
