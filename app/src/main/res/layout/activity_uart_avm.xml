@@ -23,6 +23,7 @@
     android:orientation="vertical"
     android:paddingBottom="10dip"
     android:paddingLeft="10dip"
+    android:paddingRight="10dip"
     android:paddingTop="10dip">
 
     <TextView
@@ -30,9 +31,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingLeft="10dip"
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"
         android:background="@color/message_background"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:text="" />
 
 
@@ -42,56 +44,41 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="10dip"
+            android:paddingRight="10dip"
             android:paddingTop="10dip"
             android:paddingBottom="10dip">
-            <!--
-            <TextView
-                android:id="@+id/avm_guess_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="24dp"
-                android:layout_marginBottom="20dp"
-                android:text="Guesses: 0"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:text="@string/avm_question_label"/>
-
-            <EditText
-                android:id="@+id/avm_question_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLength="19"
-                android:layout_marginBottom="10dp"
-                android:text=""/>
--->
 
             <ImageView
                 android:id="@+id/imageWarning1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/avm_view_warning"
-                android:src="@drawable/blank" />
+                android:src="@drawable/signalisation_pieton_142" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
 
             <ImageView
                 android:id="@+id/imageWarning2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/avm_view_warning"
-                android:src="@drawable/blank" />
+                android:src="@drawable/signalisation_cycliste_142" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
 
             <Button
                 android:id="@+id/sendQuestion"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onSendText"
                 android:text="@string/avm_acknowledge_btn" />

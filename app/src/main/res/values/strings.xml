@@ -26,6 +26,7 @@
     <string name="menu_services">Bluetooth Services</string>
     <string name="menu_refresh">Refresh Services</string>
     <string name="menu_new_game">New Game</string>
+    <string name="menu_set_trigger_word">Changer le mot de déclenchement</string>
 
     <string name="screen_title_main">Device List</string>
     <string name="screen_title_menu">Demo List</string>
@@ -41,6 +42,7 @@
     <string name="screen_title_gamepad">Gamepad Controller</string>
     <string name="screen_title_hrm">Heart Rate Histogram</string>
     <string name="screen_title_UART_AVM">UART AVM</string>
+    <string name="screen_title_device_information_fr">Informations sur le Microbit</string>
     <string name="screen_title_teaching_activity">AVERTISSEUR DE DANGERS</string>
 
     <string name="model_number">Model Number:</string>
@@ -61,6 +63,7 @@
     <string name="heart_rate_histogram">Heart Rate Histogram</string>
     <string name="AVM">Animal Vegetable Mineral</string>
     <string name="trivia_scoreboard">Trivia Scoreboard</string>
+    <string name="DRIVING_HELPER">Activer le détecteur de dangers</string>
 
     <string name="accelerometer_period">Accelerometer Period</string>
     <string name="magnetometer_period">Magnetometer Period</string>
@@ -93,6 +96,7 @@
     <string name="avm_new_game_btn">New Game</string>
     <string name="avm_answer_label">micro:bit answer</string>
     <string name="avm_acknowledge_btn">J\'ai compris</string>
+    <string name="avm_trigger_word">Tapez le mot de déclenchement des avertissements</string>
 
     <string name="gamepad_event_code">Gamepad Event Code</string>
     <string name="gamepad_pad_1">Left Pad Event Values</string>

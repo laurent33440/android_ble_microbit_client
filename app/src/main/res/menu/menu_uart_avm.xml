@@ -22,11 +22,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.UartAvmActivity">
     <item
-        android:id="@+id/menu_uart_avm_new_game"
-        android:title="@string/menu_new_game"
-        android:orderInCategory="110" />
-    <item
-        android:id="@+id/menu_uart_avm_help"
-        android:title="@string/menu_help"
+        android:id="@+id/menu_uart_avm_set_trigger_word"
+        android:title="@string/menu_set_trigger_word"
         android:orderInCategory="110" />
 </menu>

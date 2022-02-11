@@ -19,6 +19,7 @@ package com.bluetooth.mwoolley.microbitbledemo.ui;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
@@ -55,7 +56,8 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
 
     private boolean exiting = false;
     private boolean indications_on = false;
-    private int guess_count=0;
+    //private int guess_count=0;
+    private String triggerWord = "DANGER";
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -84,14 +86,22 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_uart_avm);
         getSupportActionBar().setTitle(R.string.screen_title_teaching_activity);
+        // set to invisible warning images
+        ImageView image1 = (ImageView)findViewById(R.id.imageWarning1);
+        ImageView image2 = (ImageView)findViewById(R.id.imageWarning2);
+        image1.setVisibility(View.INVISIBLE);
+        image2.setVisibility(View.INVISIBLE);
+        // disable acknowledge button
+        ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setEnabled(false);
+        ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setClickable(false);
+        ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setVisibility(View.INVISIBLE);
         // read intent data
         final Intent intent = getIntent();
         MicroBit.getInstance().setConnection_status_listener(this);
         // connect to the Bluetooth smart service
         Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-        // disable acknowledge button
-        ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setEnabled(false);
+
     }
 
     @Override
@@ -128,6 +138,7 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        // not used yet
         getMenuInflater().inflate(R.menu.menu_uart_avm, menu);
         return true;
     }
@@ -137,17 +148,17 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
 
         int id = item.getItemId();
 
-        if (id == R.id.menu_uart_avm_new_game) {
-            onNewGame();
+        if (id == R.id.menu_uart_avm_set_trigger_word) {
+            setTriggerWordDialog();
             return true;
         }
 
-        if (id == R.id.menu_uart_avm_help) {
-            Intent intent = new Intent(UartAvmActivity.this, HelpActivity.class);
-            intent.putExtra(Constants.URI, Constants.UART_AVM_HELP);
-            startActivity(intent);
-            return true;
-        }
+//        if (id == R.id.menu_uart_avm_help) {
+//            Intent intent = new Intent(UartAvmActivity.this, HelpActivity.class);
+//            intent.putExtra(Constants.URI, Constants.UART_AVM_HELP);
+//            startActivity(intent);
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -208,14 +219,19 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
                         Log.d(Constants.TAG, "micro:bit answer: " + ascii); // AVM_WARNING_RECEIVED
                         //if (!ascii.equals(Constants.AVM_WARNING_RECEIVED)) {
                             // show WARNING image
-                            showAnswer(ascii); // for debug purpose
+                            //showAnswer(ascii); // for debug purpose
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning1)).setImageResource(R.drawable.signalisation_pieton_142);
-                                    ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning2)).setImageResource(R.drawable.signalisation_cycliste_142);
+                                    // set to visible warning images
+                                    ImageView image1 = (ImageView)findViewById(R.id.imageWarning1);
+                                    ImageView image2 = (ImageView)findViewById(R.id.imageWarning2);
+                                    image1.setVisibility(View.VISIBLE);
+                                    image2.setVisibility(View.VISIBLE);
                                     // enable button acknowledge
                                     ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setEnabled(true);
+                                    ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setClickable(true);
+                                    ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setVisibility(View.VISIBLE);
                                 }
                             });
                         //}
@@ -246,13 +262,37 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
         });
     }
 
-    private void showAnswer(String answer) {
+    private void setTriggerWordDialog() {
+        final EditText editText = new EditText(this);
+        editText.setText(triggerWord);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Answer");
-        builder.setMessage(answer);
-        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setTitle("Mot code de déclenchement");
+        builder.setMessage(R.string.avm_trigger_word);
+        builder.setView(editText);
+        builder.setPositiveButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // get text
+                        String newTriggerWord = editText.getText().toString();
+                        updateTriggerWord(triggerWord);
+                    }
+                }
+        );
         builder.show();
     }
+
+    private void updateTriggerWord(String newWord) {
+        this.triggerWord = newWord;
+    }
+
+//    private void showAnswer(String answer) {
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Answer");
+//        builder.setMessage(answer);
+//        builder.setPositiveButton(android.R.string.ok, null);
+//        builder.show();
+//    }
 
     private void showGuessCount() {
 //        final int gc = guess_count;
@@ -282,8 +322,15 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning1)).setImageResource(R.drawable.blank);
-                ((ImageView) UartAvmActivity.this.findViewById(R.id.imageWarning2)).setImageResource(R.drawable.blank);
+                // set to invisible warning images
+                ImageView image1 = (ImageView)findViewById(R.id.imageWarning1);
+                ImageView image2 = (ImageView)findViewById(R.id.imageWarning2);
+                image1.setVisibility(View.INVISIBLE);
+                image2.setVisibility(View.INVISIBLE);
+                // disable button acknowledge
+                ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setEnabled(false);
+                ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setClickable(false);
+                ((Button) UartAvmActivity.this.findViewById(R.id.sendQuestion)).setVisibility(View.INVISIBLE);
             }
         });
 
@@ -302,10 +349,10 @@ public class UartAvmActivity extends AppCompatActivity implements ConnectionStat
 //        }
     }
 
-    public void onNewGame() {
-        Log.d(Constants.TAG, "onNewGame");
-        guess_count = 0;
-        showGuessCount();
-    }
+//    public void onNewGame() {
+//        Log.d(Constants.TAG, "onNewGame");
+//        guess_count = 0;
+//        showGuessCount();
+//    }
 
 }

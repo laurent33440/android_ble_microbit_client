@@ -24,7 +24,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:paddingBottom="10dip"
-    android:paddingLeft="10dip"
+    android:paddingStart="10dip"
+    android:paddingEnd="10dip"
     android:paddingTop="10dip">
 
     <TextView
@@ -32,33 +33,36 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingLeft="10dip"
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"
         android:background="@color/message_background"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:text="" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/menu_items_area"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10dip">
+                android:paddingStart="10dip"
+                android:paddingEnd="10dip"
+                android:baselineAligned="false">
 
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -70,33 +74,37 @@
                         android:background="@drawable/information"
                         android:onClick="onDemoSelected"
                         android:paddingTop="30dip"
-                        android:paddingLeft="20dip"
+                        android:paddingStart="20dip"
+                        android:paddingEnd="20dip"
                         android:layout_gravity="center" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="20dip"
+                        android:paddingStart="20dip"
+                        android:paddingEnd="20dip"
                         android:layout_marginBottom="10dip"
-                        android:text="@string/screen_title_device_information"
+                        android:text="@string/screen_title_device_information_fr"
                         android:textColor="#000000"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10dip">
+                android:paddingStart="10dip"
+                android:paddingEnd="10dip"
+                android:baselineAligned="false">
 
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -105,19 +113,21 @@
                         android:id="@+id/btn_avm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/avm_icon"
+                        android:background="@drawable/signalisation_danger_142"
                         android:onClick="onDemoSelected"
                         android:paddingTop="20dip"
-                        android:paddingLeft="20dip"
+                        android:paddingStart="20dip"
+                        android:paddingEnd="20dip"
                         android:layout_gravity="center" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="20dip"
-                        android:text="@string/AVM"
+                        android:paddingStart="20dip"
+                        android:paddingEnd="20dip"
+                        android:text="@string/DRIVING_HELPER"
                         android:textColor="#000000"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
